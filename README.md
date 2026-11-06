@@ -3,6 +3,8 @@
 A static storefront for the Sweeter Mundane Studio Etsy shop, styled after the
 Stereoscope Coffee reference (`stereoscopecoffee.com/shop/coffee`).
 
+**Live site:** https://yigewang1008.github.io/SweeterMundaneStudio/
+
 Open `index.html` in a browser, or serve the folder:
 
 ```bash
@@ -95,6 +97,22 @@ To take payments on-site instead, the locked Phase 2 spec in
 Shippo, the Prisma schema, and the admin app. The `data/products.json` shape
 maps onto `Product` + `ProductVariant` + `ProductMedia` — `id` is the Etsy
 listing id and maps to `etsyListingId`.
+
+---
+
+## Deploying
+
+GitHub Pages serves `main` from the repo root. After a push the site rebuilds
+and lands at https://yigewang1008.github.io/SweeterMundaneStudio/ (the build
+takes roughly 2–3 minutes).
+
+```bash
+cd /Volumes/Wei/yigewang/Documents/0-Biz/Website
+git add -A && git commit -m "..." && git push origin main
+```
+
+`.nojekyll` is committed so Pages serves the files as plain static assets
+instead of running them through Jekyll.
 
 ---
 
