@@ -1,0 +1,108 @@
+[
+  {
+    "id": "1091967819839039",
+    "slug": "houston-20x20-map-art",
+    "title": "20x20 Houston Map Art \u2014 3D Printed Framed City Map",
+    "price": 90.0,
+    "priceLow": 90.0,
+    "priceHigh": 90.0,
+    "hasVariants": false,
+    "variants": [],
+    "optionNames": [],
+    "category": "map-arts",
+    "categoryLabel": "Map Arts",
+    "images": [
+      {
+        "src": "assets/manual/houston-20x20-map-art-1.jpg",
+        "w": 900,
+        "h": 1200
+      },
+      {
+        "src": "assets/manual/houston-20x20-map-art-2.jpg",
+        "w": 900,
+        "h": 1200
+      },
+      {
+        "src": "assets/manual/houston-20x20-map-art-3.jpg",
+        "w": 900,
+        "h": 1200
+      }
+    ],
+    "description": "A modern take on the classic Houston map. Every street, bay and freeway of the greater Houston area is 3D printed as a raised relief and mounted behind glass in a natural wood frame, so the city reads as a piece of topography rather than a flat print. The downtown skyscrapers stand proud of the street grid, and the print is finished by hand in our Houston studio. 20in x 20in, framed and ready to hang.",
+    "richDescription": "",
+    "tags": [
+      "houston map",
+      "3D printed map",
+      "city map art",
+      "framed map",
+      "houston wall art",
+      "downtown houston",
+      "map decor",
+      "gift for houston"
+    ],
+    "materials": [
+      "PLA",
+      "Wood Frame"
+    ],
+    "isPersonalizable": false,
+    "isCustomizable": false,
+    "quantity": 1,
+    "favorers": 0,
+    "views": 0,
+    "marketplaceUrl": "https://www.facebook.com/marketplace/item/1091967819839039/",
+    "fulfilment": "Made to order in our Houston studio. Local pickup in Sugar Land, TX (77479)."
+  },
+  {
+    "id": "1095437189979216",
+    "slug": "praying-hands-moss-led-wall-lamp",
+    "title": "Praying Hands 20in Diameter Moss LED Art Wall Lamp",
+    "price": 250.0,
+    "priceLow": 250.0,
+    "priceHigh": 250.0,
+    "hasVariants": false,
+    "variants": [],
+    "optionNames": [],
+    "category": "design-objects",
+    "categoryLabel": "Design Objects",
+    "images": [
+      {
+        "src": "assets/manual/praying-hands-moss-led-wall-lamp-1.jpg",
+        "w": 900,
+        "h": 1200
+      },
+      {
+        "src": "assets/manual/praying-hands-moss-led-wall-lamp-2.jpg",
+        "w": 900,
+        "h": 1200
+      },
+      {
+        "src": "assets/manual/praying-hands-moss-led-wall-lamp-3.jpg",
+        "w": 900,
+        "h": 1200
+      }
+    ],
+    "description": "Turn a blank wall into a sanctuary. This handcrafted sculptural lamp pairs the vibrant organic texture of premium preserved moss with a minimalist magnetic LED light, and centres a pair of praying hands in white resin. The round black frame reads like a gallery piece while the warm LED ring lights the moss from within, so the relief and the hands cast their own soft shadows. Made to order, 20in x 20in, and finished by hand in our Houston studio.",
+    "richDescription": "",
+    "tags": [
+      "moss lamp",
+      "praying hands",
+      "sculptural lamp",
+      "LED wall art",
+      "preserved moss",
+      "biophilic decor",
+      "wall sconce",
+      "20x20"
+    ],
+    "materials": [
+      "PLA",
+      "Preserved Moss"
+    ],
+    "isPersonalizable": false,
+    "isCustomizable": false,
+    "quantity": 1,
+    "favorers": 0,
+    "views": 0,
+    "marketplaceUrl": "https://www.facebook.com/marketplace/item/1095437189979216/",
+    "fulfilment": "Made to order in our Houston studio. Local pickup in Sugar Land, TX (77479)."
+  }
+]

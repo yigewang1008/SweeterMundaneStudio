@@ -30,10 +30,12 @@ assets/
   hero.jpg              wide hero band (Fluid Purse, 1400×781)
   feature-*.jpg         editorial sections
   products/*.jpg        99 product images, max 1200px, q76
+  manual/*.jpg          photos for the Facebook Marketplace pieces, 900x1200
 data/
   products.js           the storefront catalog (window.SMS_PRODUCTS)
   products.json         same data, pretty-printed
   catalog.json          raw Etsy API dump (source of truth)
+  local-products.json   non-Etsy pieces (Facebook Marketplace) + their photos
 data/../build scripts   see "Refreshing" below
 ```
 
@@ -63,15 +65,18 @@ from size, opacity and rules rather than bold.
 
 ## Products
 
-All 21 active Etsy listings, pulled live from the Etsy v3 API:
+23 products. 21 are active Etsy listings pulled live from the Etsy v3 API;
+2 are sold only on Facebook Marketplace and are held in
+`data/local-products.json`:
 
 - **7 Pet Busts** — English Bulldog, Golden Retriever, Doberman, Poodle,
   Golden Doodle, German Shepherd, French Bulldog
 - **3 Zen Yoga Meditating Pets** — English Bulldog, Pug, French Bulldog
 - **4 Soundwave Art** — XL Sound of Love, Sound of Love, two framed versions
-- **2 Map Arts** — Downtown Houston, New York City
+- **3 Map Arts** — Downtown Houston, New York City, 20x20 Houston Map Art
 - **2 Unique Purses** — The Halo Purse, The Fluid Purse
-- **3 Design Objects** — The Miracle of Life, Coral Form, Jewelry Trinket Tray
+- **4 Design Objects** — The Miracle of Life, Coral Form, Jewelry Trinket Tray,
+  Praying Hands Moss LED Wall Lamp
 
 Per-product data includes: real price and price range, every live variant with
 its option names and values, stock availability per variant, description,
@@ -87,10 +92,21 @@ renders struck through and cannot be selected.
 ## Checkout
 
 The bag is real and works — add, quantity, remove, persists in `localStorage`
-across reloads. **Checkout hands off to Etsy**, where shipping and
-personalisation are handled, because this build has no payment processor
-wired up. The `Buy on Etsy` button on each product goes straight to the
-listing.
+across reloads. **Checkout hands off to the marketplace each piece is sold
+on**, because this build has no payment processor wired up.
+
+Products carry the URL for their own channel:
+
+| Field | Channel | Buy button |
+|---|---|---|
+| `etsyUrl` | Etsy | `Buy on Etsy` |
+| `marketplaceUrl` | Facebook Marketplace | `Buy on Facebook Marketplace` |
+
+The product page's buy button and the bag's checkout both read whichever
+field the product actually has, so a Facebook-only piece links to its
+Facebook listing and an Etsy piece still links to Etsy. The bag note names
+the channel(s) in the bag. Shipping and personalisation are settled on the
+marketplace, not here.
 
 To take payments on-site instead, the locked Phase 2 spec in
 `../E Commerce Store/specs/phase-2-schema-and-api.md` covers Stripe,
@@ -134,6 +150,12 @@ $PY ~/.hermes/scripts/build_site_catalog.py
 # 3. emit data/products.js and copy the hero/feature images
 $PY ~/.hermes/scripts/build_site_data.py
 ```
+
+Step 2 merges `data/local-products.json` back in after the Etsy listings, so
+the Facebook Marketplace pieces (the moss praying-hands lamp, the 20x20 Houston
+map) survive a catalog refresh. **Add new non-Etsy products there**, with
+their photos in `assets/manual/`, rather than editing `products.json`
+directly — `products.json` and `products.js` are both generated.
 
 The Etsy OAuth token in `~/.etsy-secrets/` expires hourly; the scripts
 refresh it on a 401 and persist the rotated refresh token.

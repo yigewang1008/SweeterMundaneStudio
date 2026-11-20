@@ -30,6 +30,26 @@
       .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
   }
 
+  /* ------------------------------------------------- marketplace target */
+  // A piece may sell on Etsy, on Facebook Marketplace, or both. The buy button
+  // and the bag's checkout read whichever URL the product actually carries.
+  function marketplace(p) {
+    if (p.marketplaceUrl) {
+      return {
+        url: p.marketplaceUrl,
+        channel: "facebook",
+        label: "Buy on Facebook Marketplace",
+        note: "Message us on Facebook Marketplace for sizing or custom requests."
+      };
+    }
+    return {
+      url: p.etsyUrl || "",
+      channel: "etsy",
+      label: "Buy on Etsy",
+      note: "Message us on Etsy for sizing or custom requests."
+    };
+  }
+
   function readJSON(key, fallback) {
     try {
       var raw = localStorage.getItem(key);
@@ -94,7 +114,8 @@
           price: variant ? variant.price : product.priceLow,
           qty: qty,
           image: product.images.length ? product.images[0].src : "",
-          etsyUrl: product.etsyUrl
+          url: product.marketplaceUrl || product.etsyUrl || "",
+          channel: product.marketplaceUrl ? "facebook" : "etsy"
         });
       }
       Bag.save();
@@ -149,6 +170,24 @@
 
     $("[data-bag-total]").textContent = money(Bag.subtotal());
     $("[data-bag-checkout]").disabled = false;
+    renderBagNote();
+  }
+
+  function renderBagNote() {
+    var note = $("[data-bag-note]");
+    if (!note) return;
+    var channels = {};
+    Bag.items.forEach(function (it) { channels[it.channel] = true; });
+    var names = Object.keys(channels).map(function (c) {
+      return c === "facebook" ? "Facebook Marketplace" : "Etsy";
+    });
+    if (names.length === 0) {
+      note.textContent = "Checkout is handled on the marketplace where each piece is listed, where you can review shipping and personalization before paying.";
+    } else if (names.length === 1) {
+      note.textContent = "Checkout is handled on " + names[0] + ", where you can review shipping and personalization before paying.";
+    } else {
+      note.textContent = "This bag mixes " + names.join(" and ") + " \u2014 check out each piece where it is listed.";
+    }
   }
 
   function openBag() {
@@ -286,6 +325,7 @@
       ? money(p.priceLow) + " <small>&ndash; " + money(p.priceHigh) + " depending on options</small>"
       : money(p.priceLow);
 
+    var mkt = marketplace(p);
     var desc = p.description || "";
     var details = "";
     if (p.materials && p.materials.length) {
@@ -310,11 +350,12 @@
         "</div>" +
         '<div class="product__actions">' +
           '<button class="btn" data-add-to-bag>Add to bag</button>' +
-          '<a class="btn btn--ghost" href="' + esc(p.etsyUrl) + '" target="_blank" rel="noopener">Buy on Etsy</a>' +
+          '<a class="btn btn--ghost" href="' + esc(mkt.url) + '" target="_blank" rel="noopener">' + esc(mkt.label) + "</a>" +
         "</div>" +
         '<div class="product__meta">' + details +
-          "<p>Printed to order in our Houston studio. Ships in 3&ndash;7 business days.</p>" +
-          "<p><b>Questions?</b> Message us on Etsy for sizing or custom requests.</p>" +
+          (p.fulfilment ? "<p>" + esc(p.fulfilment) + "</p>"
+                         : "<p>Printed to order in our Houston studio. Ships in 3&ndash;7 business days.</p>") +
+          "<p><b>Questions?</b> " + esc(mkt.note) + "</p>" +
         "</div>" +
       "</div>";
 
@@ -469,14 +510,15 @@
       }
     });
 
-    // checkout -> Etsy (this build has no payment processor wired up)
+    // checkout -> the marketplace the piece is sold on (no payment processor here)
     var checkout = $("[data-bag-checkout]");
     if (checkout) {
       checkout.addEventListener("click", function () {
         if (!Bag.items.length) return;
         var first = Bag.items[0];
-        // Multiple items: hand off to the shop; single item: its listing.
-        window.open(first.etsyUrl || "https://www.etsy.com/shop/SweeterMundaneStudio",
+        // Hand off to that piece's own listing, so shipping and any
+        // personalisation are settled where the piece is actually sold.
+        window.open(first.url || "https://www.etsy.com/shop/SweeterMundaneStudio",
                     "_blank", "noopener");
       });
     }
