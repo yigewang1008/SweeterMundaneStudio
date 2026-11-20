@@ -36,6 +36,7 @@ data/
   products.json         same data, pretty-printed
   catalog.json          raw Etsy API dump (source of truth)
   local-products.json   non-Etsy pieces (Facebook Marketplace) + their photos
+  popularity.json       featured order, from real sales (see "Ordering")
 data/../build scripts   see "Refreshing" below
 ```
 
@@ -86,6 +87,37 @@ Variants come from Etsy's `inventory.products[]` — each product is one
 variant, its `property_values` give the option names/values, and its
 `offerings` carry the real price and stock. An option that is out of stock
 renders struck through and cannot be selected.
+
+---
+
+## Ordering
+
+The grid's default **Featured** order is **by popularity**, taken from real
+sales — not favourites or views. `data/popularity.json` holds the ordered list
+of listing ids; `build_site_catalog.py` sorts the catalogue by it, so the shop
+leads with the proven best sellers:
+
+| Rank | Piece | Units sold |
+|---|---|---|
+| 1 | XL Sound of Love Waveform Sculpture | 23 |
+| 2 | Sound of Love Waveform Sculpture | 17 |
+| 3 | The Fluid Purse | 7 |
+| 4–6 | Zen Meditating Pets (English Bulldog, Pug, French Bulldog) | 6, 4, 1 |
+
+The yoga-dog family is kept as **one contiguous block** so it reads together
+instead of being split by a rival best seller. Everything that has never sold
+trails the proven sellers.
+
+Refresh the ranking after a sales period:
+
+```bash
+PY=/Volumes/Wei/yigewang/.hermes/hermes-agent/venv/bin/python
+$PY ~/.hermes/scripts/etsy_fetch_popularity.py   # -> Website/data/popularity.json
+```
+
+It reads the shop's Etsy receipts and counts units sold per listing, ignoring
+cancelled, refunded and unpaid orders. Ranks come from units sold, with
+favourites then views as tiebreakers.
 
 ---
 
@@ -143,6 +175,9 @@ PY=/Volumes/Wei/yigewang/.hermes/hermes-agent/venv/bin/python
 # 1. pull listings + images + inventory from Etsy -> data/catalog.json
 $PY ~/.hermes/scripts/etsy_fetch_catalog.py \
     /Volumes/Wei/yigewang/Documents/0-Biz/Website/data/catalog.json
+
+# 1b. refresh the featured order from real Etsy sales
+$PY ~/.hermes/scripts/etsy_fetch_popularity.py
 
 # 2. normalise into the storefront model + download/resize images
 $PY ~/.hermes/scripts/build_site_catalog.py
