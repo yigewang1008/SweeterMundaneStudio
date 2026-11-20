@@ -39,14 +39,14 @@
         url: p.marketplaceUrl,
         channel: "facebook",
         label: "Buy on Facebook Marketplace",
-        note: "Message us on Facebook Marketplace for sizing or custom requests."
+        note: "Message us on Facebook Marketplace for sizing, or email sweetermundane@gmail.com for custom requests."
       };
     }
     return {
       url: p.etsyUrl || "",
       channel: "etsy",
       label: "Buy on Etsy",
-      note: "Message us on Etsy for sizing or custom requests."
+      note: "Message us on Etsy for sizing, or email sweetermundane@gmail.com for custom requests."
     };
   }
 
